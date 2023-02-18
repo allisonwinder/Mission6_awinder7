@@ -40,7 +40,7 @@ namespace Movies.Controllers
             {
                 daContext.Add(mfr);
                 daContext.SaveChanges();
-                return View(mfr);
+                return View("Confirmation", mfr);
             }
             else //if invalid
             {
@@ -54,7 +54,8 @@ namespace Movies.Controllers
         public IActionResult MovieList()
         {
             var forms = daContext.Responses
-                .OrderBy(x => x.Title) // come back and figure out how to do the include, right now doesn't work
+                .Include(x => x.Category)
+                .OrderBy(x => x.Title)
                 .ToList();
 
             return View(forms);
@@ -77,5 +78,19 @@ namespace Movies.Controllers
             return RedirectToAction("MovieList");
         }
 
+        [HttpGet]
+        public IActionResult Delete(int formid)
+        {
+            var form = daContext.Responses.Single(x => x.FormId == formid);
+            return View(form);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(MovieFormResponse mfr)
+        {
+            daContext.Responses.Remove(mfr);
+            daContext.SaveChanges();
+            return RedirectToAction("MovieList");
+        }
     }
 }

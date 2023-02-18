@@ -152,7 +152,7 @@ namespace Movies.Migrations
 
             modelBuilder.Entity("Movies.Models.MovieFormResponse", b =>
                 {
-                    b.HasOne("Movies.Models.Category", "CategoryName")
+                    b.HasOne("Movies.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)

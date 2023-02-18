@@ -3,7 +3,7 @@
 }
 
 @model Movies.Models.MovieFormResponse
-
+    <link href="~/css/site.css" rel="stylesheet" />
 <h1>Add a Film Form</h1>
 <form method="post">
     <div asp-validation-summary="All"></div>
@@ -47,5 +47,5 @@
     <textarea asp-for="Notes" maxlength="25"></textarea>
     <br />
     <button type="submit">Submit Form</button>
-
+    
 </form>

@@ -25,14 +25,14 @@ namespace Movies.Migrations
                 {
                     FormId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CategoryId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: false),
                     Year = table.Column<int>(nullable: false),
                     Director = table.Column<string>(nullable: false),
                     Rating = table.Column<string>(nullable: false),
                     Edited = table.Column<bool>(nullable: false),
                     LentTo = table.Column<string>(nullable: true),
-                    Notes = table.Column<string>(maxLength: 25, nullable: true)
+                    Notes = table.Column<string>(maxLength: 25, nullable: true),
+                    CategoryId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -12,9 +12,6 @@ namespace Movies.Models
         [Required]
         public int FormId { get; set; }
 
-        public int CategoryId { get; set; }
-        public Category CategoryName { get; set; }
-
         [Required]
         public string Title { get; set; }
 
@@ -33,5 +30,8 @@ namespace Movies.Models
 
         [MaxLength(25)]
         public string Notes { get; set; }
+
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

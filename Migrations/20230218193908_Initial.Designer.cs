@@ -8,7 +8,7 @@ using Movies.Models;
 namespace Movies.Migrations
 {
     [DbContext(typeof(MovieFormContext))]
-    [Migration("20230218002132_Initial")]
+    [Migration("20230218193908_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -154,7 +154,7 @@ namespace Movies.Migrations
 
             modelBuilder.Entity("Movies.Models.MovieFormResponse", b =>
                 {
-                    b.HasOne("Movies.Models.Category", "CategoryName")
+                    b.HasOne("Movies.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
