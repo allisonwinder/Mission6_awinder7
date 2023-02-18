@@ -1,24 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using Movies.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Movies.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private MovieFormContext _blahContext { get; set; }
+        private MovieFormContext daContext { get; set; }
 
         //Constructor
-        public HomeController(ILogger<HomeController> logger, MovieFormContext someName)
+        public HomeController(MovieFormContext someName)
         {
-            _logger = logger;
-            _blahContext = someName;
+            daContext = someName;
             
         }
 
@@ -28,28 +22,60 @@ namespace Movies.Controllers
         }
 
         public IActionResult Podcasts()
-        {
+        {         
             return View();
         }
 
         [HttpGet]
         public IActionResult MovieForm()
         {
+            ViewBag.Categories = daContext.Categories.ToList();
             return View();
         }
 
         [HttpPost]
         public IActionResult MovieForm(MovieFormResponse mfr)
         {
-            _blahContext.Add(mfr);
-            _blahContext.SaveChanges();
-            return View(mfr);
+            if (ModelState.IsValid)
+            {
+                daContext.Add(mfr);
+                daContext.SaveChanges();
+                return View(mfr);
+            }
+            else //if invalid
+            {
+                ViewBag.Categories = daContext.Categories.ToList();
+                return View(mfr);
+            }
+
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpGet]
+        public IActionResult MovieList()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var forms = daContext.Responses
+                .OrderBy(x => x.Title) // come back and figure out how to do the include, right now doesn't work
+                .ToList();
+
+            return View(forms);
         }
+
+        [HttpGet]
+        public IActionResult Edit(int formid)
+        {
+            ViewBag.Categories = daContext.Categories.ToList();
+            var form = daContext.Responses.Single(x => x.FormId == formid);
+            return View("MovieForm", form);
+        }
+
+        [HttpPost]
+        public IActionResult Edit (MovieFormResponse blah)
+        {
+            daContext.Update(blah);
+            daContext.SaveChanges();
+
+            return RedirectToAction("MovieList");
+        }
+
     }
 }

@@ -12,8 +12,8 @@ namespace Movies.Models
         [Required]
         public int FormId { get; set; }
 
-        [Required]
-        public string Category { get; set; }
+        public int CategoryId { get; set; }
+        public Category CategoryName { get; set; }
 
         [Required]
         public string Title { get; set; }

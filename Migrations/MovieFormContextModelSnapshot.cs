@@ -15,15 +15,70 @@ namespace Movies.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.32");
 
+            modelBuilder.Entity("Movies.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Family"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Horror/Suspense"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            CategoryName = "Miscellaneous"
+                        },
+                        new
+                        {
+                            CategoryId = 7,
+                            CategoryName = "Television"
+                        },
+                        new
+                        {
+                            CategoryId = 8,
+                            CategoryName = "VHS"
+                        });
+                });
+
             modelBuilder.Entity("Movies.Models.MovieFormResponse", b =>
                 {
                     b.Property<int>("FormId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -52,13 +107,15 @@ namespace Movies.Migrations
 
                     b.HasKey("FormId");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Responses");
 
                     b.HasData(
                         new
                         {
                             FormId = 1,
-                            Category = "Family",
+                            CategoryId = 4,
                             Director = "Nathan Greno & Byron Howard",
                             Edited = false,
                             LentTo = "",
@@ -70,7 +127,7 @@ namespace Movies.Migrations
                         new
                         {
                             FormId = 2,
-                            Category = "Family",
+                            CategoryId = 4,
                             Director = "Michael Gracey",
                             Edited = false,
                             LentTo = "",
@@ -82,7 +139,7 @@ namespace Movies.Migrations
                         new
                         {
                             FormId = 3,
-                            Category = "Action/Adventure",
+                            CategoryId = 1,
                             Director = "Taika Waititi",
                             Edited = false,
                             LentTo = "",
@@ -91,6 +148,15 @@ namespace Movies.Migrations
                             Title = "Thor: Ragnarok",
                             Year = 2017
                         });
+                });
+
+            modelBuilder.Entity("Movies.Models.MovieFormResponse", b =>
+                {
+                    b.HasOne("Movies.Models.Category", "CategoryName")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
